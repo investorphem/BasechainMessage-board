@@ -7,20 +7,23 @@ base-message-board/
 ├── components/
 │   ├── ConnectButton.jsx
 │   ├── MessageBoard.jsx
-│   └── MessageList.jsx
+│   ├── MessageList.jsx
+│   ├── Skeleton.jsx
+│   └── BottomSheet.jsx
 │
 ├── lib/
 │   ├── wagmi.js
 │   ├── contract.js
-│   └── events.js
+│   └── useName.js
 │
 ├── contracts/
 │   └── MessageBoard.sol
 │
-├── script/
-│   └── Deploy.s.sol
+├── server/
+│   └── relayer.js
 │
 ├── .env.example
 ├── package.json
 ├── tailwind.config.js
+├── postcss.config.js
 ├── README.md
