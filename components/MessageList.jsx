@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '@/lib/contract';
 import LikeButton from './LikeButton';
 
-const DEPLOYMENT_BLOCK = 39908272; // ✅ your contract creation block
+const DEPLOYMENT_BLOCK = 39908272; // Base mainnet deployment block
 
 export default function MessageList() {
   const [messages, setMessages] = useState([]);
@@ -27,27 +27,44 @@ export default function MessageList() {
         provider
       );
 
-      // ✅ CORRECT EVENT + fromBlock
-      const events = await contract.queryFilter(
+      // 🔹 Fetch events
+      const writtenEvents = await contract.queryFilter(
         contract.filters.MessageWritten(),
         DEPLOYMENT_BLOCK,
         'latest'
       );
 
-      const formatted = events
-        .map(e => ({
+      const updatedEvents = await contract.queryFilter(
+        contract.filters.MessageUpdated(),
+        DEPLOYMENT_BLOCK,
+        'latest'
+      );
+
+      // 🔹 Build latest message per author
+      const map = new Map();
+
+      writtenEvents.forEach(e => {
+        map.set(e.args.user.toLowerCase(), {
           author: e.args.user,
           text: e.args.text,
-          txHash: e.transactionHash,
-          likes: 0 // optimistic, hydrated in LikeButton
-        }))
-        .reverse();
+          txHash: e.transactionHash
+        });
+      });
 
+      updatedEvents.forEach(e => {
+        const key = e.args.user.toLowerCase();
+        if (map.has(key)) {
+          map.get(key).text = e.args.text;
+          map.get(key).txHash = e.transactionHash;
+        }
+      });
+
+      const formatted = Array.from(map.values()).reverse();
       setMessages(formatted);
     } catch (err) {
       console.error('Failed to load messages:', err);
     } finally {
-      setLoading(false); // 🔥 prevents infinite loading
+      setLoading(false);
     }
   }
 
