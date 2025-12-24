@@ -10,8 +10,9 @@
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.0.0",
+    "@react-native-async-storage/async-storage": "^1.21.0",
     "@ensdomains/ensjs": "^0.2.0",
-    "next": "14.1.0",
+    "next": "^14.2.20",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-pull-to-refresh": "^2.0.1",
@@ -21,7 +22,9 @@
     "dotenv": "^16.3.1",
     "ethers": "^6.9.0",
     "cors": "^2.8.5",
-    "body-parser": "^1.20.2"
+    "body-parser": "^1.20.2",
+    "pino-pretty": "^10.3.1",
+    "buffer": "^6.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
