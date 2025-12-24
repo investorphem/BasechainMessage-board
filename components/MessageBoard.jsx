@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import { useWriteContract } from 'wagmi';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/lib/contract';
@@ -10,14 +9,12 @@ export default function MessageBoard() {
 
   function submit() {
     if (!text.trim()) return;
-
     writeContract({
       address: CONTRACT_ADDRESS,
       abi: CONTRACT_ABI,
       functionName: 'writeMessage',
       args: [text],
     });
-
     setText('');
   }
 
@@ -30,12 +27,10 @@ export default function MessageBoard() {
         rows={3}
         className="w-full bg-transparent resize-none outline-none text-base placeholder-gray-500"
       />
-
       <div className="flex justify-between items-center mt-3">
         <span className="text-xs text-gray-500">
           Stored permanently on Base
         </span>
-
         <button
           onClick={submit}
           disabled={isPending}
