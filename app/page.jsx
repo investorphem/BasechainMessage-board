@@ -1,8 +1,10 @@
+'use client';
+
+import { useState } from 'react';
 import WalletConnect from '@/components/ConnectButton';
 import MessageBoard from '@/components/MessageBoard';
 import MessageList from '@/components/MessageList';
 import BottomSheet from '@/components/BottomSheet';
-import { useState } from 'react';
 
 export default function Home() {
   const [open, setOpen] = useState(false);
