@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import WalletConnect from '@/components/ConnectButton';
 import MessageBoard from '@/components/MessageBoard';
