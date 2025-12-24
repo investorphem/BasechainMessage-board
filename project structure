@@ -1,0 +1,22 @@
+base-message-board/
+├── app/
+│   ├── layout.jsx
+│   ├── page.jsx
+│   └── globals.css
+│
+├── components/
+│   ├── ConnectButton.jsx
+│   ├── MessageBoard.jsx
+│
+├── lib/
+│   ├── wagmi.js
+│   └── contract.js
+│
+├── public/
+│   └── favicon.ico
+│
+├── .env.example
+├── package.json
+├── tailwind.config.js
+├── postcss.config.js
+├── README.md
