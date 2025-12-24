@@ -3,39 +3,56 @@ pragma solidity ^0.8.20;
 
 contract MessageBoard {
     struct Message {
+        uint256 id;
+        address author;
         string text;
         uint256 likes;
+        uint256 timestamp;
     }
 
-    mapping(address => Message) public messages;
-    address[] public authors;
+    uint256 public messageCount;
+    mapping(uint256 => Message) public messages;
 
-    event MessageWritten(address indexed user, string text);
-    event MessageUpdated(address indexed user, string text);
-    event MessageLiked(address indexed liker, address indexed author);
+    event MessageCreated(
+        uint256 indexed id,
+        address indexed author,
+        string text,
+        uint256 timestamp
+    );
+
+    event MessageLiked(
+        uint256 indexed id,
+        address indexed liker
+    );
 
     function writeMessage(string calldata _text) external {
-        if (bytes(messages[msg.sender].text).length == 0) {
-            authors.push(msg.sender);
-        }
+        require(bytes(_text).length > 0, "Empty message");
 
-        messages[msg.sender].text = _text;
-        emit MessageWritten(msg.sender, _text);
+        messageCount++;
+
+        messages[messageCount] = Message({
+            id: messageCount,
+            author: msg.sender,
+            text: _text,
+            likes: 0,
+            timestamp: block.timestamp
+        });
+
+        emit MessageCreated(
+            messageCount,
+            msg.sender,
+            _text,
+            block.timestamp
+        );
     }
 
-    function updateMessage(string calldata _text) external {
-        require(bytes(messages[msg.sender].text).length != 0, "No message");
-        messages[msg.sender].text = _text;
-        emit MessageUpdated(msg.sender, _text);
+    function likeMessage(uint256 _id) external {
+        require(_id > 0 && _id <= messageCount, "Invalid message");
+        messages[_id].likes += 1;
+        emit MessageLiked(_id, msg.sender);
     }
 
-    function likeMessage(address _author) external {
-        require(bytes(messages[_author].text).length != 0, "No message");
-        messages[_author].likes++;
-        emit MessageLiked(msg.sender, _author);
-    }
-
-    function getAllAuthors() external view returns (address[] memory) {
-        return authors;
+    function getMessage(uint256 _id) external view returns (Message memory) {
+        return messages[_id];
     }
 }
