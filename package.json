@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.0.0",
-    "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-native-async-storage/async-storage": "1.21.0",
     "@ensdomains/ensjs": "^0.2.0",
     "next": "^14.2.20",
     "react": "^18.2.0",
@@ -30,5 +30,9 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.4.0"
+  },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
   }
 }
