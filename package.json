@@ -5,15 +5,23 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "relayer": "node server/relayer.js"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.0.0",
+    "@ensdomains/ensjs": "^0.2.0",
     "next": "14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-pull-to-refresh": "^2.0.2",
     "viem": "^2.7.0",
-    "wagmi": "^2.5.0"
+    "wagmi": "^2.5.0",
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1",
+    "ethers": "^6.9.0",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
