@@ -1,10 +1,12 @@
-import { Providers } from './providers'; // If you have a separate providers file
-// OR wrap directly here:
+'use client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { wagmiConfig } from '@/lib/wagmi';
+import '@rainbow-me/rainbowkit/styles.css';
+import './globals.css'; // Ensure your CSS is imported
 
+// Create the query client outside the component to prevent recreation on re-renders
 const queryClient = new QueryClient();
 
 export default function RootLayout({ children }) {
