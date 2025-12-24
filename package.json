@@ -11,6 +11,7 @@
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.0.0",
     "@react-native-async-storage/async-storage": "1.21.0",
+    "@tanstack/react-query": "^5.0.0",
     "@ensdomains/ensjs": "^0.2.0",
     "next": "^14.2.20",
     "react": "^18.2.0",
