@@ -1,50 +1,49 @@
 'use client';
 
 import { useState } from 'react';
-import { useAccount, useReadContract, useWriteContract } from 'wagmi';
+import { useWriteContract } from 'wagmi';
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/lib/contract';
 
 export default function MessageBoard() {
-  const { address } = useAccount();
-  const { writeContract } = useWriteContract();
-  const [message, setMessage] = useState('');
+  const [text, setText] = useState('');
+  const { writeContract, isPending } = useWriteContract();
 
-  const { data } = useReadContract({
-    address: CONTRACT_ADDRESS,
-    abi: CONTRACT_ABI,
-    functionName: 'getMessage',
-    args: address ? [address] : undefined,
-  });
+  function submit() {
+    if (!text.trim()) return;
+
+    writeContract({
+      address: CONTRACT_ADDRESS,
+      abi: CONTRACT_ABI,
+      functionName: 'writeMessage',
+      args: [text],
+    });
+
+    setText('');
+  }
 
   return (
-    <div className="space-y-4">
-      <input
-        className="w-full p-2 rounded bg-slate-800"
-        placeholder="Write your on-chain message"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
+    <div className="bg-slate-900/70 backdrop-blur rounded-2xl p-4 shadow-lg">
+      <textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Write something on-chain…"
+        rows={3}
+        className="w-full bg-transparent resize-none outline-none text-base placeholder-gray-500"
       />
 
-      <button
-        onClick={() =>
-          writeContract({
-            address: CONTRACT_ADDRESS,
-            abi: CONTRACT_ABI,
-            functionName: 'writeMessage',
-            args: [message],
-          })
-        }
-        className="bg-blue-600 px-4 py-2 rounded"
-      >
-        Post Message
-      </button>
+      <div className="flex justify-between items-center mt-3">
+        <span className="text-xs text-gray-500">
+          Stored permanently on Base
+        </span>
 
-      {data && (
-        <div className="bg-slate-900 p-4 rounded">
-          <p className="text-lg">{data[0]}</p>
-          <p className="text-sm text-gray-400">Likes: {Number(data[1])}</p>
-        </div>
-      )}
+        <button
+          onClick={submit}
+          disabled={isPending}
+          className="bg-blue-600 active:bg-blue-700 px-4 py-2 rounded-xl text-sm font-medium disabled:opacity-50"
+        >
+          {isPending ? 'Posting…' : 'Post'}
+        </button>
+      </div>
     </div>
   );
 }
